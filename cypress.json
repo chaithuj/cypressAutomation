@@ -1,0 +1,12 @@
+{
+    "defaultCommandTimeout": 10000,
+    "pageLoadTimeout": 30000,
+    "env": {
+        "url": "https://rahulshettyacademy.com/angularpractice/"
+    },
+    "projectId": "iporn4",
+    "reporter": "mochawesome",
+    "retries": {
+        "runMode": 1
+    }
+}

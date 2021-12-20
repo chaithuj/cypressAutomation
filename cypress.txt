@@ -1,0 +1,175 @@
+https://docs.cypress.io/guides/overview/why-cypress
+
+https://rahulshettyacademy.com/seleniumPractise/#/country
+https://rahulshettyacademy.com/AutomationPractice/
+
+https://github.com/TheBrainFamily/cypress-cucumber-preprocessor
+
+no need write wait statement for any element - fedault 4 sec
+it force to click hidden element under popup tab ot mouser over
+it can mock api responce for UI in network tab
+it takes screenshot before and after action
+we can record video in dashboard for running test cases
+cypress will suport only css selector
+cypress has ability to change attributes in DOM
+
+cypress take care running in sequence as javascript is asynchronus
+
+.then() => { to make promise - to run asynchronus it will take care of cypress
+
+npm -i init
+npm install cypress --save-dev
+node_modules\.bin\cypress open
+
+run from cmd :  node_modules\.bin\cypress run
+from cmd it will run in headless browser by deafult in elctron browser
+for browser - node_modules\.bin\cypress run --headed
+for chrome - node_modules\.bin\cypress run --browser chrome --headed
+
+fixtures - test data
+integration - test
+plugin - listerner like on test failure
+support - customize commands like resusable methods
+videos - test runs video
+cypress.json - default configuration
+
+css selector
+# for if
+. for class
+tagname.classname - tagname optional 
+any - tagname[attribute=value]
+parent tag by space like "td tr[span='test']"
+
+auto suggestion - /// <reference types="cypress"/> add above file
+
+filter visible elements use cy.get('locator:visible')
+
+hit url				 -       cy.visit("https://rahulshettyacademy.com/seleniumPractise/#/")
+enter or type 		 -       cy.get('.search-keyword').type('ca')
+wait 				 -       cy.wait(2000)
+visible				 -       cy.get('.product:visible').should('have.length', 4)
+check for size		 -       cy.get('.products').find('.product').should('have.length', 4)
+contain for element  -       cy.get('.products').find('.product').eq(1).contains('ADD TO CART').click()
+for loop for elements found:- 
+       cy.get('.products').find('.product').each(($el, index , $list) => {
+            const textveg = $el.find('h4.product-name').text()
+            if(textveg.includes('Cashews')){
+                cy.wrap($el).find('button').click()
+            }
+        })
+handle some text by promise and log:
+		cy.get('.brand').then(function(logoelement){
+            cy.log(logoelement.text())
+        })
+reuse same loctor	 -      cy.get('.products').as('productLocator')
+							cy.get('@productLocator').find('.product').should('have.length', 4)
+console.log("aa") print in devloper tools console it is asynchronus
+verify text   -  cy.get('.brand').should('have.text' ,'GREENKART')
+xpath for text contains -        cy.contains('Place Order').click()
+
+checkbox 		-     cy.get('.chkAgree').check().should('be.checked')
+uncheckbox      -  	  cy.get('.chkAgree').uncheck().should('not.be.checked')
+check all at atime -  cy.get('input[type="checkbox]').check(['option1','option2'])
+select dropdown  - cy.get('select').select('India').should('have.value','India')
+dynamic drop down - cy.get('select').type('In')
+					cy.get('test').each(($el, index , $list) => {
+						if($el.text()==='Indai'){
+							$el.click()
+						}
+					})
+					cy.get('select').should('have.value','India')
+visible element - cy.get('css').should('be.visible')
+not visible element - cy.get('css').should('not.be.visible')
+radio button - cy.get('.chkAgree').check().should('be.checked')
+
+cypress automatically accept
+handle popup - cy.on('window:alert' , (str) => {
+					expect(str).to.equal('text of alert')
+				})
+handle windows: 
+removing target for new tab - cy.get('#opentab').invoke('removeAttr','target').click()
+navigation backword or forward - cy.go('back')
+get url - cy.url().should('include','substring url to verify')
+
+handle table data - cy.get('tr td[2]')..each(($el, index , $list) => {
+						const text = $el.text();
+							if(text.include("python")){
+								cy.get('tr td[2]').eq(index).next().then(function(price){
+										const pricetext = price.text()
+										expect(pricetext).to.equal('25')
+										})
+							}
+					})
+mouse hover - cy.get('#mousehover').invoke('show')
+force click without mousehover - cy.get('top').click({force: true})
+handle new pop window - use url and hit  by - but below will not work if it is differnt domain use remove target
+											cy.get('css').then(function(e1){
+												const url = el.prop('href')
+												cy.visit(url)
+												}						
+get attribute - cy.get('css').then(function(e1){
+						const url = el.prop('href')
+				}
+verify attributr -  cy.get(':nth-child(1) > .form-control').should('have.attr' ,'minlength','2')
+handle frame import "Import 'cypress-iframe'" - cy.frameLoaded('#frameName')
+				cy.iframe().find("a[att='value']").eq(0).click()
+				
+	cy.iframe().find("a[att='value']").should('have.length',2)				
+to pause - cy.pause()
+to debug - cy.debug()
+
+timeout for only one line -  Cypress.config('pageLoadTimeout',10000)
+
+env from cmd -  node_modules\.bin\cypress run --spec cypress/integration/examples/test2.js --env url=htttp://google.com --headed
+
+external report:
+npm install --save-dev mochawesome
+npm install --save-dev mocha
+
+place in cypress.json -  "reporter": "mochawesome"
+run using -  node_modules\.bin\cypress run --reporter mochawesome
+running multiple spec files use , sparator or keep in different folders
+
+cypress test case fail it will re run by addinf retries:1 in cypress file
+    "retries": {
+        "runMode": 1
+    }
+	
+cucumber - BDD
+
+npm install --save-dev cypress-cucumber-preprocessor
+
+add in index plugin
+const cucumber = require('cypress-cucumber-preprocessor').default
+
+module.exports = (on, config) => {
+  on('file:preprocessor', cucumber())
+}
+ "testFiles": "**/*.feature" add in cypress.json
+add in package.json
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  }
+  
+  run - node_modules\.bin\cypress run --spec cypress\integration\BDD\ecommerce.feature --headed
+  
+  run only perticular tags 
+  
+  npx cypress-tags run -e TAGS="@Smoke" --headed
+  
+  html report
+  add in package .json
+    "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
+	then
+  npm install multiple-cucumber-html-reporter --save-dev
+  
+  run - node cucumber-html-report.js
+  
+ 

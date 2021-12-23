@@ -1,0 +1,64 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "place order",
+    "line": 1,
+    "id": "place-order",
+    "tags": [],
+    "uri": "ecommerce.feature",
+    "elements": [
+      {
+        "id": "place-order;login-functionality-and-place-order",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Login Functionality and place order",
+        "tags": [
+          {
+            "name": "@Smoke",
+            "line": 9
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 11,
+            "name": "I open ecommerce site",
+            "result": {
+              "status": "passed",
+              "duration": 1190000000
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "name",
+                      "gender"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "abcd",
+                      "Male"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 12,
+            "name": "I fill the form",
+            "result": {
+              "status": "passed",
+              "duration": 672000000
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
